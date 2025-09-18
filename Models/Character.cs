@@ -1,21 +1,21 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace W4_assignment_template.Models;
 
 public class Character
 {
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
-    [JsonProperty("class")]
+    [JsonPropertyName("class")]
     public string Class { get; set; }
 
-    [JsonProperty("level")]
+    [JsonPropertyName("level")]
     public int Level { get; set; }
 
-    [JsonProperty("hp")]
+    [JsonPropertyName("hp")]
     public int HP { get; set; }
 
-    [JsonProperty("equipment")]
+    [JsonPropertyName("equipment")]
     public List<string> Equipment { get; set; }
 }
