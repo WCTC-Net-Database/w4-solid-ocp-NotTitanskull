@@ -17,7 +17,7 @@ class Program
         // and update filePath accordingly (e.g., "input.csv" or "input.json").
         // This enables dynamic switching of file formats using the IFileHandler interface.
 
-        string filePath = "input.csv"; // Default to CSV file
+        string filePath = "Data/input.csv"; // Default to CSV file
         fileHandler = new CsvFileHandler(); // Default to CSV handler
         characters = fileHandler.ReadCharacters(filePath);
 
