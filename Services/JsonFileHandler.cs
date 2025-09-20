@@ -1,3 +1,4 @@
+using System.Text.Json;
 using W4_assignment_template.Interfaces;
 using W4_assignment_template.Models;
 
@@ -9,15 +10,67 @@ namespace W4_assignment_template.Services;
 
 public class JsonFileHandler : IFileHandler
 {
-    public List<Character> ReadCharacters(string filePath)
+    private string _filePath = "Data/input.json";
+    private static readonly JsonSerializerOptions Options = new()
+    {
+        WriteIndented = true
+    };
+    
+    public List<Character> ReadCharacters()
     {
         // TODO: Implement JSON reading logic
-        throw new NotImplementedException();
+        List<Character> characters;
+        
+        if (string.IsNullOrWhiteSpace(_filePath))
+        {
+            throw new ArgumentException("File path cannot be null or empty.", nameof(_filePath));
+        }
+        else if (!File.Exists(_filePath))
+        {
+            characters = new List<Character>();
+        }
+        else
+        {
+            string json = File.ReadAllText(_filePath);
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                characters = new List<Character>();
+            }
+            else
+            {
+                try
+                {
+                    characters = JsonSerializer.Deserialize<List<Character>>(json, Options) ?? new List<Character>();
+                }
+                catch (JsonException ex)
+                {
+                    throw new InvalidDataException($"Invalid JSON content in '{_filePath}'.", ex);
+                }
+            }
+        }
+        return characters;
     }
 
-    public void WriteCharacters(string filePath, List<Character> characters)
+    public void WriteCharacters(List<Character> characters)
     {
         // TODO: Implement JSON writing logic
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(_filePath))
+        {
+            throw new ArgumentException("File path cannot be null or empty.", nameof(_filePath));
+        }
+
+        if (characters is null)
+        {
+            throw new ArgumentNullException(nameof(characters), "Characters list cannot be null.");
+        }
+
+        var directory = Path.GetDirectoryName(_filePath);
+        if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        var json = JsonSerializer.Serialize(characters, Options);
+        File.WriteAllText(_filePath, json);
     }
 }
