@@ -8,22 +8,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Data\input.csv" />
-    <None Remove="Data\input.json" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="Data\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Data\input.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\input.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <None Update="Data\input.csv">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Update="Data\input.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
 
 </Project>
